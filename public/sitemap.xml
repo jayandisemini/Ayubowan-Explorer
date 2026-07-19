@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>/destinations</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/destinations/sigiriya</loc><priority>0.8</priority></url>
+  <url><loc>/destinations/ella</loc><priority>0.8</priority></url>
+  <url><loc>/destinations/galle</loc><priority>0.8</priority></url>
+  <url><loc>/destinations/kandy</loc><priority>0.8</priority></url>
+  <url><loc>/destinations/mirissa</loc><priority>0.8</priority></url>
+  <url><loc>/destinations/yala</loc><priority>0.8</priority></url>
+  <url><loc>/tours</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/tours/classic-ceylon</loc><priority>0.8</priority></url>
+  <url><loc>/tours/wildlife-whales</loc><priority>0.8</priority></url>
+  <url><loc>/tours/hill-country-heritage</loc><priority>0.8</priority></url>
+  <url><loc>/cuisine</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>/about</loc><priority>0.6</priority></url>
+  <url><loc>/contact</loc><priority>0.6</priority></url>
+</urlset>
