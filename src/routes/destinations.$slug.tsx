@@ -29,6 +29,27 @@ export const Route = createFileRoute("/destinations/$slug")({
         { name: "twitter:description", content: dest.body },
         { name: "twitter:image", content: dest.image },
       ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TouristAttraction",
+            name: dest.name,
+            description: dest.body,
+            image: dest.image,
+            location: {
+              "@type": "Place",
+              name: dest.region,
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "LK",
+                addressRegion: dest.region,
+              },
+            },
+          }),
+        },
+      ],
     };
   },
   notFoundComponent: () => (

@@ -28,6 +28,25 @@ export const Route = createFileRoute("/tours/$slug")({
         { name: "twitter:description", content: tour.body },
         { name: "twitter:image", content: tour.image },
       ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TouristTrip",
+            name: tour.title,
+            description: tour.body,
+            image: tour.image,
+            touristType: "Cultural & Heritage Explorer",
+            offers: {
+              "@type": "Offer",
+              price: tour.price,
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+          }),
+        },
+      ],
     };
   },
   notFoundComponent: () => (
