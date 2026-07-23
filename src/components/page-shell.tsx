@@ -32,7 +32,7 @@ export function PageShell({
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
       <section className="relative h-[70svh] min-h-[460px] w-full overflow-hidden">
-        <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
+        <img src={heroImage} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
         <div className="absolute inset-0 gradient-hero-overlay" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
         <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 pt-32">

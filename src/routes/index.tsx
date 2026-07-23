@@ -18,7 +18,7 @@ function Landing() {
 
       {/* HERO */}
       <section className="relative min-h-[100svh] w-full overflow-hidden">
-        <img src={heroImg} alt="Sunrise over Sigiriya rock fortress" width={1920} height={1200}
+        <img src={heroImg} alt="Sunrise over Sigiriya rock fortress" width={1920} height={1200} fetchPriority="high" decoding="async"
           className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
         <div className="absolute inset-0 gradient-hero-overlay" />
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-start justify-center px-6 pt-32 pb-16">
