@@ -16,10 +16,16 @@ export const Route = createFileRoute("/cuisine")({
   component: CuisinePage,
   head: () => ({
     meta: [
-      { title: "Cuisine · Ayubowan Travels" },
-      { name: "description", content: "Hoppers, kottu, ambul thiyal — the flavors of Sri Lanka on a banana leaf, region by region." },
-      { property: "og:title", content: "Sri Lankan Cuisine · Ayubowan Travels" },
-      { property: "og:description", content: "A guide to the island's most beloved dishes and where to try them." },
+      { title: "Authentic Sri Lankan Cuisine · Ayubowan Travels" },
+      { name: "description", content: "Hoppers, kottu, ambul thiyal — the authentic culinary heritage of Sri Lanka on a banana leaf." },
+      { property: "og:title", content: "Authentic Sri Lankan Cuisine · Ayubowan Travels" },
+      { property: "og:description", content: "A curated guide to Sri Lanka's iconic dishes, street food, and authentic dining spots." },
+      { property: "og:image", content: cuisineImg },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Authentic Sri Lankan Cuisine · Ayubowan Travels" },
+      { name: "twitter:description", content: "Discover Sri Lanka's legendary street food, tea heritage, and regional dishes." },
+      { name: "twitter:image", content: cuisineImg },
     ],
   }),
 });

@@ -19,8 +19,14 @@ export const Route = createFileRoute("/tours/$slug")({
       meta: [
         { title: `${tour.title} · ${tour.duration} · Ayubowan Travels` },
         { name: "description", content: tour.body },
-        { property: "og:title", content: `${tour.title} — Sri Lanka` },
+        { property: "og:title", content: `${tour.title} — Sri Lanka Journey | Ayubowan Travels` },
         { property: "og:description", content: tour.body },
+        { property: "og:image", content: tour.image },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: `${tour.title} — ${tour.duration}` },
+        { name: "twitter:description", content: tour.body },
+        { name: "twitter:image", content: tour.image },
       ],
     };
   },

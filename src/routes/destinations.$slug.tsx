@@ -18,10 +18,16 @@ export const Route = createFileRoute("/destinations/$slug")({
     const { dest } = loaderData;
     return {
       meta: [
-        { title: `${dest.name} · Ayubowan Travels` },
+        { title: `${dest.name} · ${dest.region} · Ayubowan Travels` },
         { name: "description", content: dest.body },
-        { property: "og:title", content: `${dest.name} — ${dest.region}` },
+        { property: "og:title", content: `${dest.name} — ${dest.region} | Ayubowan Travels` },
         { property: "og:description", content: dest.body },
+        { property: "og:image", content: dest.image },
+        { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: `${dest.name} — ${dest.region}` },
+        { name: "twitter:description", content: dest.body },
+        { name: "twitter:image", content: dest.image },
       ],
     };
   },
