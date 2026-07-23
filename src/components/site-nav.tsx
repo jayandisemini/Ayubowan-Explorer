@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone, Mail, MapPin, X, ChevronDown } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "/about" | "/contact" }[] = [
   { label: "Destinations", to: "/destinations" },
@@ -79,6 +79,7 @@ export function SiteNav() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             {authed ? (
               <Button asChild size="sm" className="hidden md:inline-flex rounded-full">
                 <Link to="/dashboard">Open Dashboard</Link>
