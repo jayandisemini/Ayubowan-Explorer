@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { WhatsAppWidget } from "@/components/whatsapp-widget";
 import { CookieConsent } from "@/components/cookie-consent";
+import { LanguageProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -116,11 +117,13 @@ function RootComponent() {
     return () => { if (unsubscribe) unsubscribe(); };
   }, [queryClient, router]);
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <WhatsAppWidget />
-      <CookieConsent />
-      <Toaster richColors position="top-right" />
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+        <WhatsAppWidget />
+        <CookieConsent />
+        <Toaster richColors position="top-right" />
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 }

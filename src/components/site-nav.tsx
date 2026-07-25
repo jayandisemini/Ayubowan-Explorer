@@ -2,8 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Menu, Phone, Mail, MapPin, X, ChevronDown } from "lucide-react";
+import { Menu, Phone, Mail, MapPin, X, ChevronDown, Globe } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useLanguage, LANGUAGES, type LanguageCode } from "@/lib/i18n";
 import logo from "@/assets/logo.png";
 
 const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "/about" | "/contact" }[] = [
@@ -15,6 +16,7 @@ const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "
 ];
 
 export function SiteNav() {
+  const { language, setLanguage, t, currentLangObj } = useLanguage();
   const [authed, setAuthed] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -80,16 +82,43 @@ export function SiteNav() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {/* Language Selector Dropdown */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-black/20 text-white text-xs hover:border-primary/50 transition-colors"
+              >
+                <span>{currentLangObj.flag}</span>
+                <span className="font-medium">{currentLangObj.code.toUpperCase()}</span>
+                <ChevronDown className="w-3 h-3 text-white/70" />
+              </button>
+              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-36 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
+                {LANGUAGES.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => setLanguage(l.code)}
+                    className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors ${
+                      language === l.code ? "bg-primary/10 text-primary font-semibold" : "text-white/80 hover:bg-white/10"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>{l.flag}</span> {l.nativeName}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <ThemeToggle />
             {authed ? (
               <Button asChild size="sm" className="hidden md:inline-flex rounded-full">
-                <Link to="/dashboard">Open Dashboard</Link>
+                <Link to="/dashboard">{t("nav_dashboard", "Open Dashboard")}</Link>
               </Button>
             ) : (
               <>
-                <Link to="/auth" className="hidden md:inline text-sm text-white/85 hover:text-primary">Sign in</Link>
+                <Link to="/auth" className="hidden md:inline text-sm text-white/85 hover:text-primary">{t("nav_signin", "Sign in")}</Link>
                 <Button asChild size="sm" className="hidden md:inline-flex rounded-full">
-                  <Link to="/dashboard">Book Now</Link>
+                  <Link to="/dashboard">{t("btn_begin", "Book Now")}</Link>
                 </Button>
               </>
             )}
