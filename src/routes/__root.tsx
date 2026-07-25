@@ -31,15 +31,15 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
-  useEffect(() => { console.error(error); }, [error]);
+  useEffect(() => { console.error("Root Error Boundary Caught:", error); }, [error]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-display text-foreground">This page didn't load</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Try again or head home.</p>
-        <div className="mt-6 flex justify-center gap-2">
-          <button onClick={() => { router.invalidate(); reset(); }} className="rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground">Try again</button>
-          <a href="/" className="rounded-md border border-input bg-background px-4 py-2 text-sm">Home</a>
+      <div className="max-w-md text-center space-y-4">
+        <h1 className="text-2xl font-display text-foreground">Something went wrong</h1>
+        <p className="text-sm text-muted-foreground">{error?.message || "An unexpected error occurred while loading this page."}</p>
+        <div className="pt-2 flex justify-center gap-2">
+          <button onClick={() => { router.invalidate(); reset(); }} className="rounded-full bg-primary px-5 py-2 text-sm text-primary-foreground font-medium">Try again</button>
+          <a href="/" className="rounded-full border border-input bg-background px-5 py-2 text-sm font-medium">Return Home</a>
         </div>
       </div>
     </div>
@@ -101,13 +101,19 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
-        router.invalidate();
-        if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
-      }
-    });
-    return () => sub.subscription.unsubscribe();
+    let unsubscribe: (() => void) | undefined;
+    try {
+      const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+        if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+          router.invalidate();
+          if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+        }
+      });
+      unsubscribe = () => sub.subscription.unsubscribe();
+    } catch (err) {
+      console.warn("Supabase auth listener warning:", err);
+    }
+    return () => { if (unsubscribe) unsubscribe(); };
   }, [queryClient, router]);
   return (
     <QueryClientProvider client={queryClient}>
