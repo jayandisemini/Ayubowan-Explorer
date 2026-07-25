@@ -5,6 +5,7 @@ import { MapPin, Star, Calendar, Clock, Check, ArrowRight, ArrowLeft, Lightbulb 
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/reviews-section";
 import { LiveDestinationWeather } from "@/components/live-destination-weather";
+import { CulturalAudioPlayer } from "@/components/cultural-audio-player";
 
 
 export const Route = createFileRoute("/destinations/$slug")({
@@ -140,6 +141,7 @@ function DestinationDetailPage() {
         </div>
 
         <aside className="space-y-6">
+          <CulturalAudioPlayer destinationSlug={dest.slug} destinationName={dest.name} />
           <LiveDestinationWeather destinationName={dest.name} latitude={dest.latitude} longitude={dest.longitude} />
 
           <div className="rounded-3xl border border-border/40 bg-card/60 p-6 sticky top-32">
