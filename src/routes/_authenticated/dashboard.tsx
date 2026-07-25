@@ -357,6 +357,8 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
     }
   }
 
+  const [aiCheckoutOpen, setAiCheckoutOpen] = useState(false);
+
   return (
     <div className="grid gap-6 lg:grid-cols-[380px,1fr]">
       <Card className="glass p-6 h-fit">
@@ -390,8 +392,8 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
             <Label>Interests (optional)</Label>
             <Input value={interests} onChange={(e) => setInterests(e.target.value)} placeholder="wildlife, tea plantations, surfing…" />
           </div>
-          <Button onClick={onGenerate} disabled={loading} className="w-full">
-            {loading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Crafting itinerary…</>) : (<><Sparkles className="mr-2 h-4 w-4" /> Generate Smart Itinerary</>)}
+          <Button onClick={onGenerate} disabled={loading} className="w-full py-6 font-semibold">
+            {loading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Crafting itinerary…</>) : (<><Sparkles className="mr-2 h-4 w-4 text-amber-400" /> Generate Live AI Itinerary</>)}
           </Button>
         </div>
       </Card>
@@ -408,24 +410,33 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
         )}
         {!loading && itinerary.length === 0 && (
           <Card className="p-12 text-center text-muted-foreground">
-            <Sparkles className="mx-auto h-8 w-8 text-accent" />
-            <p className="mt-3">Your custom itinerary will bloom here.</p>
+            <Sparkles className="mx-auto h-8 w-8 text-accent animate-bounce" />
+            <p className="mt-3 font-medium">Your customized Sri Lankan journey will bloom here.</p>
+            <p className="text-xs mt-1 text-muted-foreground">Select a destination & click Generate above.</p>
           </Card>
         )}
         {!loading && itinerary.length > 0 && (
           <div className="animate-fade-up">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
-                <h4 className="font-display text-2xl">{dest} · {itinerary.length}-day itinerary</h4>
-                <p className="text-xs text-muted-foreground">Take your plan with you — offline-ready PDF</p>
+                <h4 className="font-display text-2xl">{dest} · {itinerary.length}-day custom itinerary</h4>
+                <p className="text-xs text-muted-foreground">Tailored for ${budget[0]} USD budget per traveler</p>
               </div>
-              <Button
-                onClick={() => exportItineraryPDF({ destination: dest, days: itinerary.length, budget: budget[0], itinerary })}
-                variant="outline"
-                className="border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                <Download className="w-4 h-4 mr-2" /> Download PDF
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => exportItineraryPDF({ destination: dest, days: itinerary.length, budget: budget[0], itinerary })}
+                  variant="outline"
+                  className="rounded-full border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground"
+                >
+                  <Download className="w-4 h-4 mr-2" /> Download PDF
+                </Button>
+                <Button
+                  onClick={() => setAiCheckoutOpen(true)}
+                  className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" /> Book This Trip (${budget[0]})
+                </Button>
+              </div>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {itinerary.map((d) => (
@@ -439,6 +450,13 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
                 </Card>
               ))}
             </div>
+
+            <BookingCheckoutDialog
+              open={aiCheckoutOpen}
+              onOpenChange={setAiCheckoutOpen}
+              tourTitle={`Custom ${dest} ${itinerary.length}-Day AI Itinerary`}
+              pricePerPerson={budget[0]}
+            />
           </div>
         )}
       </div>
