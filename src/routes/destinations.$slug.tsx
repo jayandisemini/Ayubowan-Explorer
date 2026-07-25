@@ -4,6 +4,7 @@ import { getDestination, destinations, type Destination } from "@/lib/destinatio
 import { MapPin, Star, Calendar, Clock, Check, ArrowRight, ArrowLeft, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/reviews-section";
+import { LiveDestinationWeather } from "@/components/live-destination-weather";
 
 
 export const Route = createFileRoute("/destinations/$slug")({
@@ -139,6 +140,8 @@ function DestinationDetailPage() {
         </div>
 
         <aside className="space-y-6">
+          <LiveDestinationWeather destinationName={dest.name} latitude={dest.latitude} longitude={dest.longitude} />
+
           <div className="rounded-3xl border border-border/40 bg-card/60 p-6 sticky top-32">
             <div className="flex items-center gap-2 text-sm">
               <Star className="w-4 h-4 fill-primary text-primary" />

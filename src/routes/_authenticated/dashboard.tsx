@@ -19,6 +19,8 @@ import galleImg from "@/assets/galle.jpg";
 import mirissaImg from "@/assets/mirissa.jpg";
 import sigiriyaImg from "@/assets/hero-sigiriya.jpg";
 import { exportItineraryPDF } from "@/lib/pdf-itinerary";
+import { BookingCheckoutDialog } from "@/components/booking-checkout-dialog";
+import { TrainScheduleFinder } from "@/components/train-schedule-finder";
 
 const DestinationMap = lazy(() => import("@/components/destination-map").then((m) => ({ default: m.DestinationMap })));
 
@@ -281,41 +283,45 @@ function LogisticsPanel() {
   }, []);
 
   return (
-    <Card className="p-5 h-[560px] overflow-y-auto">
-      <div className="flex items-center justify-between">
-        <h3 className="font-display text-xl">Live Logistics</h3>
-        <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot" /> Streaming
-        </span>
-      </div>
-      <p className="mt-1 text-sm text-muted-foreground">Trains & Southern Expressway buses (simulated)</p>
-      <div className="mt-4 space-y-3">
-        {vehicles.map((v) => (
-          <div key={v.id} className="rounded-xl border border-border p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className={`grid place-items-center w-9 h-9 rounded-lg ${v.kind === "train" ? "bg-primary/10 text-primary" : "bg-accent/20 text-accent-foreground"}`}>
-                  {v.kind === "train" ? <Train className="w-4 h-4" /> : <Bus className="w-4 h-4" />}
+    <div className="grid gap-6 lg:grid-cols-[1fr,380px]">
+      <TrainScheduleFinder />
+
+      <Card className="p-5 h-fit">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-xl">Live Trackers</h3>
+          <span className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot" /> Live
+          </span>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">Active trains & Southern Expressway buses</p>
+        <div className="mt-4 space-y-3">
+          {vehicles.map((v) => (
+            <div key={v.id} className="rounded-xl border border-border p-3.5 hover:border-primary/40 transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`grid place-items-center w-8 h-8 rounded-lg ${v.kind === "train" ? "bg-primary/10 text-primary" : "bg-accent/20 text-accent-foreground"}`}>
+                    {v.kind === "train" ? <Train className="w-4 h-4" /> : <Bus className="w-4 h-4" />}
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm">{v.name}</div>
+                    <div className="text-[11px] text-muted-foreground">{v.route}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-medium">{v.name}</div>
-                  <div className="text-xs text-muted-foreground">{v.route}</div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm font-semibold tabular-nums">{v.eta}</div>
-                <div className="mt-1 inline-flex items-center gap-1.5 text-[11px]">
-                  <span className={`w-2 h-2 rounded-full animate-pulse-dot ${v.status === "on-time" ? "bg-emerald-500" : "bg-red-500"}`} />
-                  <span className={v.status === "on-time" ? "text-emerald-600" : "text-red-600"}>
-                    {v.status === "on-time" ? "On time" : `Delayed +${v.delay}m`}
-                  </span>
+                <div className="text-right">
+                  <div className="text-xs font-semibold tabular-nums">{v.eta}</div>
+                  <div className="mt-0.5 inline-flex items-center gap-1.5 text-[10px]">
+                    <span className={`w-1.5 h-1.5 rounded-full animate-pulse-dot ${v.status === "on-time" ? "bg-emerald-500" : "bg-red-500"}`} />
+                    <span className={v.status === "on-time" ? "text-emerald-600" : "text-red-600"}>
+                      {v.status === "on-time" ? "On time" : `+${v.delay}m`}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </Card>
+          ))}
+        </div>
+      </Card>
+    </div>
   );
 }
 function seedVehicles(): Vehicle[] {
