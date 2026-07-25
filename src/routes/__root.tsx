@@ -15,6 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { WhatsAppWidget } from "@/components/whatsapp-widget";
 import { CookieConsent } from "@/components/cookie-consent";
 import { LanguageProvider } from "@/lib/i18n";
+import { CurrencyProvider } from "@/lib/currency";
 
 function NotFoundComponent() {
   return (
@@ -118,12 +119,14 @@ function RootComponent() {
   }, [queryClient, router]);
   return (
     <LanguageProvider>
-      <QueryClientProvider client={queryClient}>
-        <Outlet />
-        <WhatsAppWidget />
-        <CookieConsent />
-        <Toaster richColors position="top-right" />
-      </QueryClientProvider>
+      <CurrencyProvider>
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+          <WhatsAppWidget />
+          <CookieConsent />
+          <Toaster richColors position="top-right" />
+        </QueryClientProvider>
+      </CurrencyProvider>
     </LanguageProvider>
   );
 }

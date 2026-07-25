@@ -5,6 +5,7 @@ import { getTour, tours, type Tour } from "@/lib/tours-data";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/reviews-section";
 import { BookingCheckoutDialog } from "@/components/booking-checkout-dialog";
+import { useCurrency } from "@/lib/currency";
 import { Clock, Users, Sparkles, Check, X, ArrowLeft, ArrowRight, CreditCard } from "lucide-react";
 
 export const Route = createFileRoute("/tours/$slug")({
@@ -67,6 +68,7 @@ export const Route = createFileRoute("/tours/$slug")({
 
 function TourDetailPage() {
   const { tour } = Route.useLoaderData() as { tour: Tour };
+  const { formatPrice } = useCurrency();
   const related = tours.filter((t) => t.slug !== tour.slug).slice(0, 3);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
@@ -138,7 +140,7 @@ function TourDetailPage() {
         <aside className="space-y-6">
           <div className="rounded-3xl border border-border/40 bg-card/60 p-6 sticky top-32">
             <div className="text-xs uppercase tracking-widest text-muted-foreground">From</div>
-            <div className="mt-1 font-display text-4xl text-gradient-gold">{tour.price}</div>
+            <div className="mt-1 font-display text-4xl text-gradient-gold">{formatPrice(priceNum)}</div>
             <div className="text-xs text-muted-foreground">per person, twin share</div>
 
             <div className="mt-6 space-y-4 text-sm">

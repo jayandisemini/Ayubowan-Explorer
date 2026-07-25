@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, Phone, Mail, MapPin, X, ChevronDown, Globe } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useLanguage, LANGUAGES, type LanguageCode } from "@/lib/i18n";
+import { useCurrency, CURRENCIES, type CurrencyCode } from "@/lib/currency";
 import logo from "@/assets/logo.png";
 
 const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "/about" | "/contact" }[] = [
@@ -17,6 +18,7 @@ const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "
 
 export function SiteNav() {
   const { language, setLanguage, t, currentLangObj } = useLanguage();
+  const { currency, setCurrency, currentCurrencyObj } = useCurrency();
   const [authed, setAuthed] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -103,6 +105,33 @@ export function SiteNav() {
                   >
                     <span className="flex items-center gap-2">
                       <span>{l.flag}</span> {l.nativeName}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Currency Selector Dropdown */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-white/20 bg-black/20 text-white text-xs hover:border-primary/50 transition-colors"
+              >
+                <span className="font-semibold text-amber-400">{currentCurrencyObj.symbol}</span>
+                <span className="font-medium">{currency}</span>
+                <ChevronDown className="w-3 h-3 text-white/70" />
+              </button>
+              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-44 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
+                {CURRENCIES.map((c) => (
+                  <button
+                    key={c.code}
+                    onClick={() => setCurrency(c.code)}
+                    className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors ${
+                      currency === c.code ? "bg-primary/10 text-primary font-semibold" : "text-white/80 hover:bg-white/10"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="font-mono text-amber-400 w-5">{c.symbol}</span> {c.name}
                     </span>
                   </button>
                 ))}
