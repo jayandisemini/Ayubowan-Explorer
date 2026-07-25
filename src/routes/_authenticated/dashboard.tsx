@@ -365,6 +365,18 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
 
   const [aiCheckoutOpen, setAiCheckoutOpen] = useState(false);
 
+  const moveDay = (index: number, direction: "left" | "right") => {
+    const targetIndex = direction === "left" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= itinerary.length) return;
+    const newItinerary = [...itinerary];
+    const temp = newItinerary[index];
+    newItinerary[index] = newItinerary[targetIndex];
+    newItinerary[targetIndex] = temp;
+    const renumbered = newItinerary.map((d, i) => ({ ...d, day: i + 1 }));
+    setItinerary(renumbered);
+    toast.info(`Reordered Day ${index + 1} & Day ${targetIndex + 1}`);
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-[380px,1fr]">
       <Card className="glass p-6 h-fit">
@@ -445,10 +457,34 @@ function ArchitectPanel({ destinations }: { destinations: Destination[] }) {
               </div>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {itinerary.map((d) => (
-                <Card key={d.day} className="p-5 hover-lift">
-                  <Badge className="rounded-full">Day {d.day}</Badge>
-                  <h4 className="mt-3 font-display text-xl">{d.title}</h4>
+              {itinerary.map((d, idx) => (
+                <Card key={d.day} className="p-5 hover-lift space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Badge className="rounded-full">Day {d.day}</Badge>
+                    <div className="flex gap-1 text-xs">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={idx === 0}
+                        onClick={() => moveDay(idx, "left")}
+                        className="h-6 px-1.5 text-xs rounded-md"
+                        title="Move day earlier"
+                      >
+                        ← Move
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={idx === itinerary.length - 1}
+                        onClick={() => moveDay(idx, "right")}
+                        className="h-6 px-1.5 text-xs rounded-md"
+                        title="Move day later"
+                      >
+                        Move →
+                      </Button>
+                    </div>
+                  </div>
+                  <h4 className="mt-2 font-display text-xl">{d.title}</h4>
                   <Row icon={<Landmark className="w-4 h-4 text-primary" />} label="Morning" text={d.morning} />
                   <Row icon={<Compass className="w-4 h-4 text-ocean" />} label="Afternoon" text={d.afternoon} />
                   <Row icon={<Mountain className="w-4 h-4 text-jade" />} label="Evening" text={d.evening} />
