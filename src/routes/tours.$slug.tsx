@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 import { getTour, tours, type Tour } from "@/lib/tours-data";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/reviews-section";
-import { Clock, Users, Sparkles, Check, X, ArrowLeft, ArrowRight } from "lucide-react";
+import { BookingCheckoutDialog } from "@/components/booking-checkout-dialog";
+import { Clock, Users, Sparkles, Check, X, ArrowLeft, ArrowRight, CreditCard } from "lucide-react";
 
 export const Route = createFileRoute("/tours/$slug")({
   component: TourDetailPage,
@@ -66,6 +68,10 @@ export const Route = createFileRoute("/tours/$slug")({
 function TourDetailPage() {
   const { tour } = Route.useLoaderData() as { tour: Tour };
   const related = tours.filter((t) => t.slug !== tour.slug).slice(0, 3);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+
+  // Extract numerical USD price e.g. "$1,290" -> 1290
+  const priceNum = parseInt(tour.price.replace(/[^0-9]/g, "")) || 890;
 
   return (
     <PageShell
@@ -140,15 +146,29 @@ function TourDetailPage() {
               <div className="flex items-center gap-2"><Users className="w-4 h-4 text-primary" /> {tour.group}</div>
             </div>
 
-            <Link to="/dashboard" className="block mt-6">
-              <Button className="w-full rounded-full"><Sparkles className="mr-2 w-4 h-4" /> Customize this tour</Button>
-            </Link>
-            <Link to="/contact" className="block mt-2">
-              <Button variant="outline" className="w-full rounded-full">Speak to a specialist</Button>
-            </Link>
+            <div className="mt-6 space-y-2">
+              <Button onClick={() => setCheckoutOpen(true)} size="lg" className="w-full rounded-full py-6 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold shadow-lg shadow-amber-500/20">
+                <CreditCard className="mr-2 w-5 h-5" /> Book & Pay Online
+              </Button>
+
+              <Link to="/dashboard" className="block">
+                <Button variant="outline" className="w-full rounded-full"><Sparkles className="mr-2 w-4 h-4" /> Customize in AI Dashboard</Button>
+              </Link>
+              <Link to="/contact" className="block">
+                <Button variant="ghost" className="w-full rounded-full text-xs text-muted-foreground">Speak to a specialist</Button>
+              </Link>
+            </div>
           </div>
         </aside>
       </div>
+
+      <BookingCheckoutDialog
+        open={checkoutOpen}
+        onOpenChange={setCheckoutOpen}
+        tourTitle={tour.title}
+        pricePerPerson={priceNum}
+        tourId={tour.slug}
+      />
 
       <section className="mt-20">
         <div className="flex items-end justify-between mb-8">

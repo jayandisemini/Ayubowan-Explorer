@@ -465,6 +465,7 @@ function BookingsPanel({ destinations }: { destinations: Destination[] }) {
   const [date, setDate] = useState("");
   const [budget, setBudget] = useState("500");
   const [notes, setNotes] = useState("");
+  const [checkoutTarget, setCheckoutTarget] = useState<{ title: string; price: number } | null>(null);
 
   async function load() {
     const { data, error } = await supabase.from("bookings").select("*").order("travel_date");
@@ -525,20 +526,43 @@ function BookingsPanel({ destinations }: { destinations: Destination[] }) {
         )}
         {bookings.map((b) => {
           const d = destinations.find((x) => x.id === b.destination_id);
+          const isPaid = b.status === "confirmed" || b.status === "paid" || (b.notes && b.notes.includes("PAID"));
+          const titleName = d?.name ? `${d.name} Tour Package` : "Custom Sri Lanka Expedition";
           return (
             <Card key={b.id} className="p-5 flex items-center justify-between hover-lift">
               <div>
                 <div className="font-display text-lg">{d?.name ?? "Custom trip"}</div>
-                <div className="text-sm text-muted-foreground">{new Date(b.travel_date).toLocaleDateString(undefined, { dateStyle: "long" })} · ${b.total_budget}</div>
-                {b.notes && <div className="mt-1 text-sm">{b.notes}</div>}
+                <div className="text-sm text-muted-foreground">{new Date(b.travel_date).toLocaleDateString(undefined, { dateStyle: "long" })} · ${b.total_budget} USD</div>
+                {b.notes && <div className="mt-1 text-sm text-muted-foreground">{b.notes}</div>}
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant="secondary" className="capitalize">{b.status}</Badge>
+                <Badge variant={isPaid ? "default" : "secondary"} className={`capitalize ${isPaid ? "bg-emerald-600 text-white" : ""}`}>
+                  {isPaid ? "Paid & Confirmed" : b.status}
+                </Badge>
+                {!isPaid ? (
+                  <Button size="sm" className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => setCheckoutTarget({ title: titleName, price: b.total_budget || 500 })}>
+                    Pay Online
+                  </Button>
+                ) : null}
                 <Button variant="ghost" size="sm" onClick={() => remove(b.id)}>Remove</Button>
               </div>
             </Card>
           );
         })}
+
+        {checkoutTarget && (
+          <BookingCheckoutDialog
+            open={!!checkoutTarget}
+            onOpenChange={(open) => {
+              if (!open) {
+                setCheckoutTarget(null);
+                load();
+              }
+            }}
+            tourTitle={checkoutTarget.title}
+            pricePerPerson={checkoutTarget.price}
+          />
+        )}
       </div>
     </div>
   );
