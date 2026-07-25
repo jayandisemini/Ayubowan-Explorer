@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone, Mail, MapPin, X, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import logo from "@/assets/logo.png";
 
 const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "/about" | "/contact" }[] = [
   { label: "Destinations", to: "/destinations" },
