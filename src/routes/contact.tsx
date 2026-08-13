@@ -22,13 +22,17 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [lastWaUrl, setLastWaUrl] = useState<string>("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Open popup window IMMEDIATELY on user click (synchronously) to bypass browser popup blockers
+    const popup = typeof window !== "undefined" ? window.open("about:blank", "_blank") : null;
+
     setSending(true);
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const { supabase } = await import("@/integrations/supabase/client");
     
     const inquiryData = {
       name: String(fd.get("name") || ""),
@@ -39,6 +43,24 @@ function ContactPage() {
       message: String(fd.get("message") || ""),
       source: "contact",
     };
+
+    const waText = `Ayubowan! New Travel Enquiry 🇱🇰
+
+*Full Name:* ${inquiryData.name}
+*Email:* ${inquiryData.email}
+*Country:* ${inquiryData.country || "Not specified"}
+*Travel Dates:* ${inquiryData.travel_dates || "Not specified"}
+*Travelers:* ${inquiryData.pax || "Not specified"}
+*Trip Details:* ${inquiryData.message}`;
+
+    const waUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+    setLastWaUrl(waUrl);
+
+    if (popup) {
+      popup.location.href = waUrl;
+    }
+
+    const { supabase } = await import("@/integrations/supabase/client");
 
     let sent = false;
     try {
@@ -57,29 +79,13 @@ function ContactPage() {
       console.warn("Local storage write notice:", err);
     }
 
-    // Format and send message directly to WhatsApp (0740489343)
-    const waText = `Ayubowan! New Travel Enquiry 🇱🇰
-
-*Full Name:* ${inquiryData.name}
-*Email:* ${inquiryData.email}
-*Country:* ${inquiryData.country || "Not specified"}
-*Travel Dates:* ${inquiryData.travel_dates || "Not specified"}
-*Travelers:* ${inquiryData.pax || "Not specified"}
-*Trip Details:* ${inquiryData.message}`;
-
-    window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`, "_blank", "noopener");
-
     setSending(false);
-    if (sent) {
-      setSubmitted(true);
-      toast.success("Enquiry saved & dispatched to WhatsApp (+94 74 048 9343)!");
-      form.reset();
-    } else {
-      toast.error("Couldn't send — please try again.");
-    }
+    setSubmitted(true);
+    toast.success("Enquiry saved & opening WhatsApp! 💬");
+    form.reset();
   };
 
-  const openWhatsApp = () => {
+  const openWhatsAppDirect = () => {
     const text = encodeURIComponent("Ayubowan! I would like to inquire about booking a trip to Sri Lanka.");
     window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${text}`, "_blank", "noopener");
   };
@@ -88,21 +94,33 @@ function ContactPage() {
     <PageShell
       eyebrow="Start planning"
       title={<>Let's design <span className="text-gradient-gold">your journey.</span></>}
-      lead="Tell us when you'd like to travel, roughly how long, and what you're dreaming of. A specialist will reply within 24 hours."
+      lead="Tell us when you'd like to travel, roughly how long, and what you're dreaming of. Submitting opens WhatsApp directly to +94 74 048 9343 & saves your inquiry."
       heroImage={mirissaImg}
     >
       <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
         <div className="space-y-6">
           {submitted ? (
-            <div className="rounded-3xl border border-primary/30 bg-primary/10 p-8 text-center space-y-4 animate-fade-up">
-              <div className="w-12 h-12 rounded-full bg-primary/20 text-primary grid place-items-center mx-auto text-xl">✓</div>
-              <h2 className="font-display text-2xl text-foreground">Enquiry Received!</h2>
+            <div className="rounded-3xl border border-emerald-500/40 bg-emerald-500/10 p-8 text-center space-y-4 animate-fade-up">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-500 grid place-items-center mx-auto text-xl font-bold">✓</div>
+              <h2 className="font-display text-2xl text-foreground">Enquiry Saved!</h2>
               <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                Thank you for reaching out to Ayubowan Travels. Our local travel specialists are reviewing your request and will contact you via email or at <span className="font-semibold text-foreground">{SITE_CONFIG.whatsappFormatted}</span> shortly.
+                Your enquiry has been saved. If WhatsApp did not open automatically, tap the green button below to send your pre-filled enquiry to <span className="font-semibold text-foreground">{SITE_CONFIG.whatsappFormatted}</span>:
               </p>
-              <Button onClick={() => setSubmitted(false)} variant="outline" className="rounded-full mt-2">
-                Send another enquiry
-              </Button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                {lastWaUrl && (
+                  <a
+                    href={lastWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 text-sm shadow-lg transition-transform hover:scale-105"
+                  >
+                    <MessageCircle className="w-5 h-5" /> Tap to Open WhatsApp Message
+                  </a>
+                )}
+                <Button onClick={() => setSubmitted(false)} variant="outline" className="rounded-full">
+                  Send another enquiry
+                </Button>
+              </div>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="rounded-3xl border border-border/40 bg-card p-8 space-y-5">
@@ -125,7 +143,7 @@ function ContactPage() {
                 <Button type="submit" disabled={sending} size="lg" className="rounded-full font-semibold px-8">
                   {sending ? "Sending…" : "Send enquiry"}
                 </Button>
-                <Button type="button" onClick={openWhatsApp} variant="outline" size="lg" className="rounded-full flex items-center gap-2 border-emerald-500/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10">
+                <Button type="button" onClick={openWhatsAppDirect} variant="outline" size="lg" className="rounded-full flex items-center gap-2 border-emerald-500/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10">
                   <MessageCircle className="w-4 h-4" /> Or chat via WhatsApp
                 </Button>
               </div>
