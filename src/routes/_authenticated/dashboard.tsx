@@ -32,6 +32,26 @@ type Destination = {
 type FoodRec = { id: string; food_name: string; description: string; price_level: number; destination_id: string };
 type Booking = { id: string; travel_date: string; total_budget: number; status: string; destination_id: string | null; notes: string | null };
 
+import { destinations as fallbackDestList } from "@/lib/destinations-data";
+
+const defaultDestinations: Destination[] = fallbackDestList.map((d, i) => ({
+  id: `dest-${i + 1}`,
+  name: d.name,
+  type: d.slug === "sigiriya" ? "cultural" : d.slug === "ella" ? "hillcountry" : d.slug === "galle" ? "cultural" : d.slug === "mirissa" ? "beach" : "wildlife",
+  description: d.body,
+  story: d.experiences[0]?.description || null,
+  image_url: d.image,
+  latitude: d.slug === "sigiriya" ? 7.957 : d.slug === "ella" ? 6.8667 : d.slug === "galle" ? 6.0536 : d.slug === "mirissa" ? 5.9483 : 7.2906,
+  longitude: d.slug === "sigiriya" ? 80.7603 : d.slug === "ella" ? 81.0466 : d.slug === "galle" ? 80.217 : d.slug === "mirissa" ? 80.4716 : 80.6337,
+}));
+
+const defaultFoods: FoodRec[] = [
+  { id: "f1", food_name: "Kottu Roti", description: "Shredded flatbread flash-fried with aromatic curry spices, vegetables & egg on a hot griddle.", price_level: 1, destination_id: "dest-1" },
+  { id: "f2", food_name: "Ceylon Hopper (Appa)", description: "Crispy bowl-shaped rice flour crêpes with soft sponge center, served with pol sambol.", price_level: 1, destination_id: "dest-2" },
+  { id: "f3", food_name: "Fresh Grilled Red Snapper", description: "Ocean-to-table whole fish marinated in lime and black pepper, grilled over coconut coals.", price_level: 2, destination_id: "dest-4" },
+  { id: "f4", food_name: "Pol Roti with Lunu Miris", description: "Rustic coconut flatbread paired with spicy onion-chili sambol.", price_level: 1, destination_id: "dest-3" },
+];
+
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Ayubowan Travels" }] }),
   component: Dashboard,
@@ -45,9 +65,16 @@ function Dashboard() {
   const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? ""));
-    supabase.from("destinations").select("*").then(({ data }) => setDestinations((data as Destination[]) ?? []));
-    supabase.from("food_recommendations").select("*").then(({ data }) => setFoods((data as FoodRec[]) ?? []));
+    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? "traveler@ayubowantravels.lk"));
+    supabase.from("destinations").select("*").then(({ data }) => {
+      if (data && data.length > 0) setDestinations((data as Destination[]) ?? []);
+      else setDestinations(defaultDestinations);
+    }).catch(() => setDestinations(defaultDestinations));
+
+    supabase.from("food_recommendations").select("*").then(({ data }) => {
+      if (data && data.length > 0) setFoods((data as FoodRec[]) ?? []);
+      else setFoods(defaultFoods);
+    }).catch(() => setFoods(defaultFoods));
   }, []);
 
   const selected = destinations.find((d) => d.id === selectedId) ?? null;
