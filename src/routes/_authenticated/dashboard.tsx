@@ -108,27 +108,28 @@ function Dashboard() {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 font-display text-lg">
-            <img src={logo} alt="Ayubowan Travels" width={44} height={44} className="w-11 h-11 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
+            <img src={logo} alt="Ayubowan Travels" width={44} height={44} className="w-11 h-11 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" />
             <div className="leading-tight">
-              <div className="text-white tracking-wide">Ayubowan <span className="text-gradient-gold">Travels</span></div>
+              <div className="text-foreground tracking-wide">Ayubowan <span className="text-gradient-gold">Travels</span></div>
               <div className="text-[10px] uppercase tracking-[0.3em] text-primary/80 font-sans">Traveler console</div>
             </div>
           </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="rounded-full text-white/80 hover:text-white relative">
+            <ThemeToggle />
+            <Button variant="ghost" size="icon" className="rounded-full text-foreground/80 hover:text-foreground relative">
               <Bell className="w-4 h-4" />
               <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot" />
             </Button>
-            <div className="hidden md:flex items-center gap-3 pl-3 border-l border-white/10">
+            <div className="hidden md:flex items-center gap-3 pl-3 border-l border-border/60">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent grid place-items-center text-primary-foreground font-semibold uppercase text-sm">
                 {firstName.charAt(0)}
               </div>
               <div className="leading-tight">
-                <div className="text-sm text-white capitalize">{firstName}</div>
+                <div className="text-sm text-foreground capitalize font-medium">{firstName}</div>
                 <div className="text-[11px] text-muted-foreground">{userEmail}</div>
               </div>
             </div>
-            <Link to="/admin"><Button variant="ghost" size="sm" className="text-white/80 hover:text-white"><ShieldCheck className="mr-2 h-4 w-4" />Admin</Button></Link>
+            <Link to="/admin"><Button variant="ghost" size="sm" className="text-foreground/80 hover:text-foreground"><ShieldCheck className="mr-2 h-4 w-4" />Admin</Button></Link>
             <Button variant="outline" size="sm" onClick={signOut}><LogOut className="mr-2 h-4 w-4" />Sign out</Button>
           </div>
         </div>
@@ -136,16 +137,16 @@ function Dashboard() {
 
       <main className="relative mx-auto max-w-7xl px-6 py-8">
         {/* Hero greeting */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-primary/15 via-background to-accent/10 p-8 md:p-10 shadow-luxe">
+        <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/15 via-card to-accent/10 p-8 md:p-10 shadow-luxe">
           <div className="absolute -right-10 -top-10 opacity-20">
             <Palmtree className="w-64 h-64 text-primary" />
           </div>
           <div className="relative grid gap-6 md:grid-cols-[1.4fr,1fr] items-end">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur border border-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-primary/90">
+              <div className="inline-flex items-center gap-2 rounded-full bg-card/60 backdrop-blur border border-border/60 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-primary/90">
                 <Sparkles className="w-3 h-3" /> {greeting.label}
               </div>
-              <h1 className="mt-4 font-display text-4xl md:text-5xl text-white capitalize">
+              <h1 className="mt-4 font-display text-4xl md:text-5xl text-foreground capitalize">
                 {greeting.hello}, {firstName}.
               </h1>
               <p className="mt-3 text-muted-foreground max-w-xl">Your Sri Lanka command center — plan itineraries, follow live logistics, and manage bookings in one immersive space.</p>
@@ -266,13 +267,13 @@ function getGreeting() {
 function StatTile({ icon, label, value, accent, tone }: { icon: React.ReactNode; label: string; value: string; accent: "primary" | "accent"; tone?: "soft" }) {
   const border = accent === "primary" ? "border-primary/25" : "border-accent/25";
   const bg = tone === "soft"
-    ? "bg-white/[0.03]"
+    ? "bg-card/40"
     : accent === "primary" ? "bg-primary/10" : "bg-accent/10";
   const iconWrap = accent === "primary" ? "bg-primary/20 text-primary" : "bg-accent/20 text-accent";
   return (
     <div className={`rounded-2xl border ${border} ${bg} backdrop-blur p-4`}>
       <div className={`w-8 h-8 rounded-lg grid place-items-center ${iconWrap}`}>{icon}</div>
-      <div className="mt-3 text-2xl font-display text-white tabular-nums">{value}</div>
+      <div className="mt-3 text-2xl font-display text-foreground tabular-nums">{value}</div>
       <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</div>
     </div>
   );

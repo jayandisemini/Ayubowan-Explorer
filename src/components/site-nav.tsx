@@ -39,7 +39,7 @@ export function SiteNav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50">
       {/* Top utility bar */}
-      <div className="hidden md:block border-b border-white/10 bg-background/70 backdrop-blur-md text-white/80 text-xs">
+      <div className="hidden md:block border-b border-border/40 bg-background/80 backdrop-blur-md text-foreground/80 text-xs">
         <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="inline-flex items-center gap-2"><MapPin className="w-3 h-3 text-primary" /> Colombo, Sri Lanka</span>
@@ -56,13 +56,13 @@ export function SiteNav() {
       </div>
 
       {/* Main nav */}
-      <div className={`transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-xl shadow-luxe border-b border-white/10" : "bg-transparent"}`}>
+      <div className={`transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-xl shadow-luxe border-b border-border/40" : "bg-background/40 backdrop-blur-sm"}`}>
         <div className="mx-auto max-w-7xl px-6 flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Ayubowan Travels" width={48} height={48} className="w-12 h-12 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
+            <img src={logo} alt="Ayubowan Travels" width={48} height={48} className="w-12 h-12 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" />
             <div className="leading-tight">
-              <div className="font-display text-xl text-white tracking-wide">Ayubowan</div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-primary">Travels · Sri Lanka</div>
+              <div className="font-display text-xl text-foreground tracking-wide">Ayubowan</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-primary font-sans">Travels · Sri Lanka</div>
             </div>
           </Link>
 
@@ -71,14 +71,14 @@ export function SiteNav() {
               <Link
                 key={l.label}
                 to={l.to}
-                className="relative px-4 py-2 text-sm font-medium text-white/85 hover:text-primary transition-colors group"
-                activeProps={{ className: "text-primary" }}
+                className="relative px-4 py-2 text-sm font-medium text-foreground/85 hover:text-primary transition-colors group"
+                activeProps={{ className: "text-primary font-semibold" }}
               >
                 {l.label}
                 <span className="absolute left-4 right-4 -bottom-0.5 h-px bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
             ))}
-            <Link to="/dashboard" className="relative px-4 py-2 text-sm font-medium text-white/85 hover:text-primary transition-colors inline-flex items-center gap-1">
+            <Link to="/dashboard" className="relative px-4 py-2 text-sm font-medium text-foreground/85 hover:text-primary transition-colors inline-flex items-center gap-1">
               Dashboard <ChevronDown className="w-3 h-3" />
             </Link>
           </nav>
@@ -88,19 +88,19 @@ export function SiteNav() {
             <div className="relative group">
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-black/20 text-white text-xs hover:border-primary/50 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border/60 bg-card/80 text-foreground text-xs hover:border-primary/50 transition-colors shadow-xs"
               >
                 <span>{currentLangObj.flag}</span>
                 <span className="font-medium">{currentLangObj.code.toUpperCase()}</span>
-                <ChevronDown className="w-3 h-3 text-white/70" />
+                <ChevronDown className="w-3 h-3 text-muted-foreground" />
               </button>
-              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-36 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
+              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-36 rounded-2xl border border-border bg-popover text-popover-foreground backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
                 {LANGUAGES.map((l) => (
                   <button
                     key={l.code}
                     onClick={() => setLanguage(l.code)}
                     className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors ${
-                      language === l.code ? "bg-primary/10 text-primary font-semibold" : "text-white/80 hover:bg-white/10"
+                      language === l.code ? "bg-primary/15 text-primary font-semibold" : "text-popover-foreground/80 hover:bg-muted"
                     }`}
                   >
                     <span className="flex items-center gap-2">
@@ -115,23 +115,23 @@ export function SiteNav() {
             <div className="relative group">
               <button
                 type="button"
-                className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-white/20 bg-black/20 text-white text-xs hover:border-primary/50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-border/60 bg-card/80 text-foreground text-xs hover:border-primary/50 transition-colors shadow-xs"
               >
-                <span className="font-semibold text-amber-400">{currentCurrencyObj.symbol}</span>
+                <span className="font-semibold text-amber-500 dark:text-amber-400">{currentCurrencyObj.symbol}</span>
                 <span className="font-medium">{currency}</span>
-                <ChevronDown className="w-3 h-3 text-white/70" />
+                <ChevronDown className="w-3 h-3 text-muted-foreground" />
               </button>
-              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-44 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
+              <div className="absolute right-0 top-full mt-1 hidden group-hover:block w-44 rounded-2xl border border-border bg-popover text-popover-foreground backdrop-blur-xl p-1.5 shadow-2xl z-50 animate-fade-in">
                 {CURRENCIES.map((c) => (
                   <button
                     key={c.code}
                     onClick={() => setCurrency(c.code)}
                     className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors ${
-                      currency === c.code ? "bg-primary/10 text-primary font-semibold" : "text-white/80 hover:bg-white/10"
+                      currency === c.code ? "bg-primary/15 text-primary font-semibold" : "text-popover-foreground/80 hover:bg-muted"
                     }`}
                   >
                     <span className="flex items-center gap-2">
-                      <span className="font-mono text-amber-400 w-5">{c.symbol}</span> {c.name}
+                      <span className="font-mono text-amber-500 dark:text-amber-400 w-5">{c.symbol}</span> {c.name}
                     </span>
                   </button>
                 ))}
@@ -145,7 +145,7 @@ export function SiteNav() {
               </Button>
             ) : (
               <>
-                <Link to="/auth" className="hidden md:inline text-sm text-white/85 hover:text-primary">{t("nav_signin", "Sign in")}</Link>
+                <Link to="/auth" className="hidden md:inline text-sm text-foreground/85 hover:text-primary">{t("nav_signin", "Sign in")}</Link>
                 <Button asChild size="sm" className="hidden md:inline-flex rounded-full">
                   <Link to="/dashboard">{t("btn_begin", "Book Now")}</Link>
                 </Button>
@@ -153,7 +153,7 @@ export function SiteNav() {
             )}
             <button
               onClick={() => setOpen((v) => !v)}
-              className="lg:hidden grid place-items-center w-10 h-10 rounded-full border border-white/20 text-white"
+              className="lg:hidden grid place-items-center w-10 h-10 rounded-full border border-border text-foreground"
               aria-label="Toggle menu"
             >
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -163,19 +163,19 @@ export function SiteNav() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="lg:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl">
+          <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-xl">
             <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-1">
               {navLinks.map((l) => (
                 <Link
                   key={l.label}
                   to={l.to}
                   onClick={() => setOpen(false)}
-                  className="px-3 py-3 rounded-lg text-white/85 hover:bg-white/5 hover:text-primary"
+                  className="px-3 py-3 rounded-lg text-foreground/85 hover:bg-muted hover:text-primary"
                 >
                   {l.label}
                 </Link>
               ))}
-              <Link to="/dashboard" onClick={() => setOpen(false)} className="px-3 py-3 rounded-lg text-white/85 hover:bg-white/5 hover:text-primary">Dashboard</Link>
+              <Link to="/dashboard" onClick={() => setOpen(false)} className="px-3 py-3 rounded-lg text-foreground/85 hover:bg-muted hover:text-primary">Dashboard</Link>
               <Button asChild className="mt-2 rounded-full">
                 <Link to={authed ? "/dashboard" : "/auth"}>{authed ? "Open Dashboard" : "Book Now"}</Link>
               </Button>

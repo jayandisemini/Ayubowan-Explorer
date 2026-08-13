@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import heroImg from "@/assets/hero-sigiriya.jpg";
 import logo from "@/assets/logo.png";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Sign in — Ayubowan Travels" }] }),
@@ -62,7 +63,10 @@ function AuthPage() {
   }
 
   return (
-    <div className="relative min-h-screen grid md:grid-cols-2">
+    <div className="relative min-h-screen grid md:grid-cols-2 bg-background text-foreground">
+      <div className="absolute top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
       <div className="relative hidden md:block">
         <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 gradient-hero-overlay" />
@@ -76,7 +80,7 @@ function AuthPage() {
         </div>
       </div>
       <div className="flex items-center justify-center p-6 md:p-12">
-        <Card className="w-full max-w-md p-8 glass">
+        <Card className="w-full max-w-md p-8 glass bg-card/90 border-border">
           <h1 className="font-display text-3xl">Welcome</h1>
           <p className="mt-1 text-sm text-muted-foreground">Sign in or create your account</p>
 
