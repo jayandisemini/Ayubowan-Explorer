@@ -40,16 +40,19 @@ function getLocalSession() {
 }
 
 function createSupabaseClient() {
+  const env = (import.meta as any).env || {};
+  const procEnv = (typeof globalThis !== 'undefined' && (globalThis as any).process?.env) || {};
+
   const SUPABASE_URL =
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) ||
-    (typeof process !== 'undefined' && process.env?.SUPABASE_URL) ||
+    env.VITE_SUPABASE_URL ||
+    procEnv.SUPABASE_URL ||
     DEFAULT_SUPABASE_URL;
 
   const SUPABASE_PUBLISHABLE_KEY =
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY) ||
-    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ||
-    (typeof process !== 'undefined' && process.env?.SUPABASE_PUBLISHABLE_KEY) ||
-    (typeof process !== 'undefined' && process.env?.SUPABASE_ANON_KEY) ||
+    env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    env.VITE_SUPABASE_ANON_KEY ||
+    procEnv.SUPABASE_PUBLISHABLE_KEY ||
+    procEnv.SUPABASE_ANON_KEY ||
     DEFAULT_SUPABASE_KEY;
 
   const rawClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
