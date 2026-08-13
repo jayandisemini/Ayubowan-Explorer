@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MessageCircle, X, Send, Sparkles, Compass, ShieldCheck } from "lucide-react";
-
-const WHATSAPP_NUMBER = "94771234567"; // +94 77 123 4567
+import { SITE_CONFIG } from "@/lib/config";
 
 const PRESETS = [
   { label: "🏰 Sigiriya & Dambulla Day Tour", text: "Ayubowan! I'd like to book a private tour to Sigiriya Lion Rock & Dambulla." },
@@ -17,7 +16,7 @@ export function WhatsAppWidget() {
   function send(customText?: string) {
     const textToSend = customText || message.trim() || "Ayubowan! I'd love to plan a luxury trip to Sri Lanka.";
     const text = encodeURIComponent(textToSend);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener");
+    window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${text}`, "_blank", "noopener");
   }
 
   return (

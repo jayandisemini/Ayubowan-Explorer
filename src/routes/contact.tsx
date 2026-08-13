@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 import mirissaImg from "@/assets/mirissa.jpg";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Clock, Instagram, Facebook, Youtube } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Instagram, Facebook, Youtube, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SITE_CONFIG } from "@/lib/config";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -20,6 +21,21 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sending, setSending] = useState(false);
+
+  const sendToWhatsApp = (data: { name: string; email: string; country?: string | null; dates?: string | null; pax?: string | null; message: string }) => {
+    const waText = `Ayubowan! New Travel Enquiry 🇱🇰
+
+*Full Name:* ${data.name}
+*Email:* ${data.email}
+*Country:* ${data.country || "Not specified"}
+*Travel Dates:* ${data.dates || "Not specified"}
+*Travelers:* ${data.pax || "Not specified"}
+*Trip Details:* ${data.message}`;
+
+    const url = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+    window.open(url, "_blank", "noopener");
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
@@ -54,13 +70,19 @@ function ContactPage() {
       console.warn("Local storage write notice:", err);
     }
 
+    // Automatically trigger WhatsApp redirect with inquiry details
+    sendToWhatsApp({
+      name: inquiryData.name,
+      email: inquiryData.email,
+      country: inquiryData.country,
+      dates: inquiryData.travel_dates,
+      pax: inquiryData.pax,
+      message: inquiryData.message,
+    });
+
     setSending(false);
-    if (sent) {
-      toast.success("Thank you — we'll be in touch within 24 hours.");
-      form.reset();
-    } else {
-      toast.error("Couldn't send — please try again.");
-    }
+    toast.success("Enquiry saved & opening WhatsApp! 💬");
+    form.reset();
   };
 
 
@@ -68,7 +90,7 @@ function ContactPage() {
     <PageShell
       eyebrow="Start planning"
       title={<>Let's design <span className="text-gradient-gold">your journey.</span></>}
-      lead="Tell us when you'd like to travel, roughly how long, and what you're dreaming of. A specialist will reply within 24 hours with initial ideas."
+      lead="Tell us when you'd like to travel, roughly how long, and what you're dreaming of. Submitting sends details directly to our WhatsApp & saves your enquiry."
       heroImage={mirissaImg}
     >
       <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
@@ -88,9 +110,15 @@ function ContactPage() {
               className="mt-1.5 w-full rounded-xl border border-input bg-background/60 px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
           </div>
-          <Button type="submit" disabled={sending} size="lg" className="rounded-full w-full sm:w-auto">
-            {sending ? "Sending…" : "Send enquiry"}
-          </Button>
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Button type="submit" disabled={sending} size="lg" className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold flex items-center gap-2">
+              <MessageCircle className="w-5 h-5" />
+              {sending ? "Opening WhatsApp…" : "Send via WhatsApp"}
+            </Button>
+            <span className="text-xs text-muted-foreground">
+              Direct dispatch to <span className="font-semibold text-foreground">{SITE_CONFIG.whatsappFormatted}</span>
+            </span>
+          </div>
         </form>
 
         <aside className="space-y-4">
