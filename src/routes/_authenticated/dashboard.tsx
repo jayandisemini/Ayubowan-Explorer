@@ -21,6 +21,7 @@ import sigiriyaImg from "@/assets/hero-sigiriya.jpg";
 import { exportItineraryPDF } from "@/lib/pdf-itinerary";
 import { BookingCheckoutDialog } from "@/components/booking-checkout-dialog";
 import { TrainScheduleFinder } from "@/components/train-schedule-finder";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const DestinationMap = lazy(() => import("@/components/destination-map").then((m) => ({ default: m.DestinationMap })));
 
