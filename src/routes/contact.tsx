@@ -57,10 +57,22 @@ function ContactPage() {
       console.warn("Local storage write notice:", err);
     }
 
+    // Format and send message directly to WhatsApp (0740489343)
+    const waText = `Ayubowan! New Travel Enquiry 🇱🇰
+
+*Full Name:* ${inquiryData.name}
+*Email:* ${inquiryData.email}
+*Country:* ${inquiryData.country || "Not specified"}
+*Travel Dates:* ${inquiryData.travel_dates || "Not specified"}
+*Travelers:* ${inquiryData.pax || "Not specified"}
+*Trip Details:* ${inquiryData.message}`;
+
+    window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`, "_blank", "noopener");
+
     setSending(false);
     if (sent) {
       setSubmitted(true);
-      toast.success("Thank you! Your enquiry has been received. Our Sri Lanka team will contact you shortly.");
+      toast.success("Enquiry saved & dispatched to WhatsApp (+94 74 048 9343)!");
       form.reset();
     } else {
       toast.error("Couldn't send — please try again.");
