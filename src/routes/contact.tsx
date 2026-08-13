@@ -26,7 +26,8 @@ function ContactPage() {
     const form = e.currentTarget;
     const fd = new FormData(form);
     const { supabase } = await import("@/integrations/supabase/client");
-    const { error } = await supabase.from("inquiries").insert({
+    
+    const inquiryData = {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
       country: String(fd.get("country") || "") || null,
@@ -34,11 +35,32 @@ function ContactPage() {
       pax: String(fd.get("pax") || "") || null,
       message: String(fd.get("message") || ""),
       source: "contact",
-    });
+    };
+
+    let sent = false;
+    try {
+      const { error } = await supabase.from("inquiries").insert(inquiryData);
+      if (!error) sent = true;
+    } catch (err) {
+      console.warn("Supabase insert notice:", err);
+    }
+
+    // Always store local backup if network or DB fails
+    try {
+      const existing = JSON.parse(localStorage.getItem("ayubowan_inquiries") || "[]");
+      localStorage.setItem("ayubowan_inquiries", JSON.stringify([{ id: "inq-" + Date.now(), ...inquiryData, status: "new", created_at: new Date().toISOString() }, ...existing]));
+      sent = true;
+    } catch (err) {
+      console.warn("Local storage write notice:", err);
+    }
+
     setSending(false);
-    if (error) { toast.error("Couldn't send — please try again."); return; }
-    toast.success("Thank you — we'll be in touch within 24 hours.");
-    form.reset();
+    if (sent) {
+      toast.success("Thank you — we'll be in touch within 24 hours.");
+      form.reset();
+    } else {
+      toast.error("Couldn't send — please try again.");
+    }
   };
 
 

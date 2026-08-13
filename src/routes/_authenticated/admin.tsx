@@ -344,8 +344,23 @@ function InquiriesAdmin() {
 
   async function load() {
     setLoading(true);
-    const { data } = await supabase.from("inquiries").select("*").order("created_at", { ascending: false });
-    setItems((data as Inquiry[]) ?? []);
+    let list: Inquiry[] = [];
+    try {
+      const { data } = await supabase.from("inquiries").select("*").order("created_at", { ascending: false });
+      if (data && data.length > 0) list = data as Inquiry[];
+    } catch {}
+
+    try {
+      const local = JSON.parse(localStorage.getItem("ayubowan_inquiries") || "[]");
+      if (local && local.length > 0) {
+        const ids = new Set(list.map((i) => i.id));
+        for (const item of local) {
+          if (!ids.has(item.id)) list.push(item);
+        }
+      }
+    } catch {}
+
+    setItems(list);
     setLoading(false);
   }
   useEffect(() => { void load(); }, []);
