@@ -6,6 +6,7 @@ import { Menu, Phone, Mail, MapPin, X, ChevronDown, Globe } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useLanguage, LANGUAGES, type LanguageCode } from "@/lib/i18n";
 import { useCurrency, CURRENCIES, type CurrencyCode } from "@/lib/currency";
+import { SITE_CONFIG } from "@/lib/config";
 import logo from "@/assets/logo.png";
 
 const navLinks: { label: string; to: "/destinations" | "/tours" | "/cuisine" | "/about" | "/contact" }[] = [
@@ -43,8 +44,8 @@ export function SiteNav() {
         <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="inline-flex items-center gap-2"><MapPin className="w-3 h-3 text-primary" /> Colombo, Sri Lanka</span>
-            <span className="inline-flex items-center gap-2"><Phone className="w-3 h-3 text-primary" /> +94 11 234 5678</span>
-            <span className="inline-flex items-center gap-2"><Mail className="w-3 h-3 text-primary" /> hello@ayubowantravels.lk</span>
+            <span className="inline-flex items-center gap-2"><Phone className="w-3 h-3 text-primary" /> {SITE_CONFIG.whatsappFormatted}</span>
+            <span className="inline-flex items-center gap-2"><Mail className="w-3 h-3 text-primary" /> {SITE_CONFIG.email}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="opacity-70">Follow:</span>

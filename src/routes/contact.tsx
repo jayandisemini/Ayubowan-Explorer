@@ -122,8 +122,8 @@ function ContactPage() {
         </form>
 
         <aside className="space-y-4">
-          <InfoRow icon={Mail} title="Email" lines={["hello@ayubowantravels.lk", "planning@ayubowantravels.lk"]} />
-          <InfoRow icon={Phone} title="Phone & WhatsApp" lines={["+94 11 234 5678", "+94 77 123 4567 (24/7)"]} />
+          <InfoRow icon={Mail} title="Email" lines={[SITE_CONFIG.email, "planning@ayubowantravels.lk"]} />
+          <InfoRow icon={Phone} title="Phone & WhatsApp" lines={[SITE_CONFIG.whatsappFormatted, `${SITE_CONFIG.whatsappFormatted} (24/7)`]} />
           <InfoRow icon={MapPin} title="Studio" lines={["36 Pedlar Street", "Galle Fort, Sri Lanka 80000"]} />
           <InfoRow icon={Clock} title="Hours" lines={["Mon–Sat · 9am – 7pm SLT", "Emergency line 24/7"]} />
           <div className="rounded-2xl border border-border/40 bg-card p-5">
