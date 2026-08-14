@@ -8,6 +8,7 @@ import galleImg from "@/assets/galle.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteNav } from "@/components/site-nav";
 import { TestimonialsCarousel } from "@/components/testimonials-carousel";
+import { AmbientParticles } from "@/components/ambient-particles";
 
 export const Route = createFileRoute("/")({ component: Landing });
 
@@ -19,8 +20,10 @@ function Landing() {
       {/* HERO */}
       <section className="relative min-h-[100svh] w-full overflow-hidden">
         <img src={heroImg} alt="Sunrise over Sigiriya rock fortress" width={1920} height={1200} fetchPriority="high" decoding="async"
-          className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
+          className="absolute inset-0 h-full w-full object-cover scale-105 animate-ken-burns" />
         <div className="absolute inset-0 gradient-hero-overlay" />
+        <AmbientParticles />
+
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-start justify-center px-6 pt-32 pb-16">
           <div className="glass-dark rounded-full px-4 py-1.5 text-xs uppercase tracking-widest font-medium shadow-sm animate-fade-up">
             ආයුබෝවන් · Welcome to Sri Lanka
@@ -32,7 +35,7 @@ function Landing() {
             AI-crafted itineraries, live train logistics, and immersive storytelling — from the misty peaks of Ella to the golden shores of Mirissa.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 animate-fade-up" style={{ animationDelay: "360ms" }}>
-            <Button asChild size="lg" className="rounded-full">
+            <Button asChild size="lg" className="rounded-full shadow-lg hover:scale-105 transition-transform">
               <Link to="/dashboard"><Sparkles className="mr-2 h-4 w-4" /> Begin your journey</Link>
             </Button>
             <Button
@@ -48,11 +51,11 @@ function Landing() {
           {/* Floating destination chips */}
           <div className="mt-16 grid w-full max-w-3xl grid-cols-3 gap-3 animate-fade-up" style={{ animationDelay: "500ms" }}>
             {[
-              { name: "Sigiriya", tag: "UNESCO" },
-              { name: "Ella", tag: "Tea Country" },
-              { name: "Mirissa", tag: "Blue Whales" },
+              { name: "Sigiriya", tag: "UNESCO", float: "animate-float" },
+              { name: "Ella", tag: "Tea Country", float: "animate-float-reverse" },
+              { name: "Mirissa", tag: "Blue Whales", float: "animate-float" },
             ].map((d) => (
-              <div key={d.name} className="glass-dark rounded-2xl px-4 py-3 shadow-md">
+              <div key={d.name} className={`glass-dark rounded-2xl px-4 py-3 shadow-md ${d.float}`}>
                 <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/80 font-medium">
                   <MapPin className="w-3 h-3 text-amber-400" /> {d.tag}
                 </div>
@@ -113,7 +116,7 @@ function Landing() {
 
 function PillarCard({ id, title, body, image, icon, tag }: { id: string; title: string; body: string; image: string; icon: React.ReactNode; tag: string }) {
   return (
-    <a id={id} href="/dashboard" className="group relative overflow-hidden rounded-3xl hover-lift block">
+    <a id={id} href="/dashboard" className="group relative overflow-hidden rounded-3xl hover-glow block border border-border/40">
       <img src={image} alt={title} loading="lazy" className="h-80 w-full object-cover transition-transform duration-700 group-hover:scale-110" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-6 text-white">
@@ -127,14 +130,14 @@ function PillarCard({ id, title, body, image, icon, tag }: { id: string; title: 
 
 function SpotlightCard({ image, kicker, title, body }: { image: string; kicker: string; title: string; body: string }) {
   return (
-    <article className="group overflow-hidden rounded-3xl bg-card hover-lift">
+    <article className="group overflow-hidden rounded-3xl bg-card border border-border/40 hover-glow">
       <div className="relative aspect-[4/3] overflow-hidden">
         <img src={image} alt={title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
       </div>
       <div className="p-6">
-        <div className="text-xs uppercase tracking-widest text-primary">{kicker}</div>
+        <div className="text-xs uppercase tracking-widest text-primary font-semibold">{kicker}</div>
         <h3 className="mt-2 font-display text-2xl">{title}</h3>
-        <p className="mt-2 text-muted-foreground">{body}</p>
+        <p className="mt-2 text-muted-foreground leading-relaxed">{body}</p>
       </div>
     </article>
   );

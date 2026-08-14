@@ -2,15 +2,16 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { Link, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import { AmbientParticles } from "@/components/ambient-particles";
 
 function BackButton() {
   const router = useRouter();
   return (
     <button
       onClick={() => router.history.back()}
-      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
     >
-      <ArrowLeft className="w-4 h-4" /> Back
+      <ArrowLeft className="w-4 h-4 text-primary" /> Back
     </button>
   );
 }
@@ -32,9 +33,10 @@ export function PageShell({
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
       <section className="relative h-[70svh] min-h-[460px] w-full overflow-hidden">
-        <img src={heroImage} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
+        <img src={heroImage} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover scale-105 animate-ken-burns" />
         <div className="absolute inset-0 gradient-hero-overlay" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
+        <AmbientParticles />
         <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 pt-32">
           <div className="glass-dark inline-flex w-fit rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.3em] font-medium shadow-sm animate-fade-up">
             {eyebrow}
