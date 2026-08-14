@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { supabase } from "@/integrations/supabase/client";
 import { ClientOnly } from "@/components/client-only";
 import type { DestinationPin } from "@/components/destination-map";
-import { Waves, Sparkles, Train, Bus, LogOut, MapPin, Utensils, Landmark, Mountain, History, Loader2, CalendarDays, Compass, Sun, CloudSun, Plane, Wallet, Heart, Bell, TrendingUp, Palmtree, ShieldCheck, Download } from "lucide-react";
+import { Waves, Sparkles, Train, Bus, LogOut, MapPin, Utensils, Landmark, Mountain, History, Loader2, CalendarDays, Compass, Sun, CloudSun, Plane, Wallet, Heart, Bell, TrendingUp, Palmtree, ShieldCheck, Download, Car, Luggage } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 import ellaImg from "@/assets/ella.jpg";
@@ -22,6 +22,8 @@ import { exportItineraryPDF } from "@/lib/pdf-itinerary";
 import { BookingCheckoutDialog } from "@/components/booking-checkout-dialog";
 import { TrainScheduleFinder } from "@/components/train-schedule-finder";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { TransferBookingCalculator } from "@/components/transfer-booking-calculator";
+import { PackingEtiquetteGuide } from "@/components/packing-etiquette-guide";
 
 const DestinationMap = lazy(() => import("@/components/destination-map").then((m) => ({ default: m.DestinationMap })));
 
@@ -203,10 +205,12 @@ function Dashboard() {
         </div>
 
         <Tabs defaultValue="architect" className="w-full mt-8">
-          <TabsList className="glass h-12 rounded-full p-1">
-            <TabsTrigger value="architect" className="rounded-full px-5"><Sparkles className="mr-2 h-4 w-4" />AI Trip Architect</TabsTrigger>
-            <TabsTrigger value="logistics" className="rounded-full px-5"><Train className="mr-2 h-4 w-4" />Live Logistics Hub</TabsTrigger>
-            <TabsTrigger value="bookings" className="rounded-full px-5"><CalendarDays className="mr-2 h-4 w-4" />My Bookings</TabsTrigger>
+          <TabsList className="glass h-12 rounded-full p-1 inline-flex max-w-full overflow-x-auto">
+            <TabsTrigger value="architect" className="rounded-full px-4"><Sparkles className="mr-1.5 h-4 w-4" />AI Trip Architect</TabsTrigger>
+            <TabsTrigger value="logistics" className="rounded-full px-4"><Train className="mr-1.5 h-4 w-4" />Live Logistics & Map</TabsTrigger>
+            <TabsTrigger value="transfers" className="rounded-full px-4"><Car className="mr-1.5 h-4 w-4" />Private Transfers</TabsTrigger>
+            <TabsTrigger value="packing" className="rounded-full px-4"><Luggage className="mr-1.5 h-4 w-4" />Packing & Etiquette</TabsTrigger>
+            <TabsTrigger value="bookings" className="rounded-full px-4"><CalendarDays className="mr-1.5 h-4 w-4" />My Bookings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="architect" className="mt-6">
@@ -218,13 +222,21 @@ function Dashboard() {
               <Card className="p-2 overflow-hidden h-[560px]">
                 <ClientOnly fallback={<div className="h-full w-full grid place-items-center text-muted-foreground">Loading map…</div>}>
                   <Suspense fallback={<div className="h-full w-full grid place-items-center text-muted-foreground">Loading map…</div>}>
-                    <DestinationMap pins={pins} onSelect={setSelectedId} selectedId={selectedId} />
+                    <DestinationMap pins={pins} onSelect={setSelectedId} selectedId={selectedId} showRouteVisualizer />
                   </Suspense>
                 </ClientOnly>
               </Card>
               <LogisticsPanel />
             </div>
             <div className="mt-4 text-xs text-muted-foreground">Tip: tap any marker on the map to see its story and local food recommendations.</div>
+          </TabsContent>
+
+          <TabsContent value="transfers" className="mt-6">
+            <TransferBookingCalculator />
+          </TabsContent>
+
+          <TabsContent value="packing" className="mt-6">
+            <PackingEtiquetteGuide />
           </TabsContent>
 
           <TabsContent value="bookings" className="mt-6">
