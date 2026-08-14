@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { supabase } from "@/integrations/supabase/client";
 import { ClientOnly } from "@/components/client-only";
 import type { DestinationPin } from "@/components/destination-map";
-import { Waves, Sparkles, Train, Bus, LogOut, MapPin, Utensils, Landmark, Mountain, History, Loader2, CalendarDays, Compass, Sun, CloudSun, Plane, Wallet, Heart, Bell, TrendingUp, Palmtree, ShieldCheck, Download, Car, Luggage } from "lucide-react";
+import { Waves, Sparkles, Train, Bus, LogOut, MapPin, Utensils, Landmark, Mountain, History, Loader2, CalendarDays, Compass, Sun, CloudSun, Plane, Wallet, Heart, Bell, TrendingUp, Palmtree, ShieldCheck, Download, Car, Luggage, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 import ellaImg from "@/assets/ella.jpg";
@@ -127,13 +127,18 @@ function Dashboard() {
 
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 font-display text-lg">
-            <img src={logo} alt="Ayubowan Travels" width={44} height={44} className="w-11 h-11 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" />
-            <div className="leading-tight">
-              <div className="text-foreground tracking-wide">Ayubowan <span className="text-gradient-gold">Travels</span></div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-primary/80 font-sans">Traveler console</div>
-            </div>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-foreground/90 hover:text-primary transition-colors py-1.5 px-3 rounded-full border border-border/60 bg-card/80 shadow-xs font-medium">
+              <ArrowLeft className="w-3.5 h-3.5 text-primary" /> Back to Home
+            </Link>
+            <Link to="/" className="hidden sm:flex items-center gap-3 font-display text-lg">
+              <img src={logo} alt="Ayubowan Travels" width={44} height={44} className="w-11 h-11 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" />
+              <div className="leading-tight">
+                <div className="text-foreground tracking-wide">Ayubowan <span className="text-gradient-gold">Travels</span></div>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-primary/80 font-sans font-semibold">Traveler console</div>
+              </div>
+            </Link>
+          </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <Button variant="ghost" size="icon" className="rounded-full text-foreground/80 hover:text-foreground relative">
@@ -156,6 +161,11 @@ function Dashboard() {
       </header>
 
       <main className="relative mx-auto max-w-7xl px-6 py-8">
+        <div className="mb-4 flex items-center justify-between">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            <ArrowLeft className="w-4 h-4 text-primary" /> Back to Home Page
+          </Link>
+        </div>
         {/* Hero greeting */}
         <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/15 via-card to-accent/10 p-8 md:p-10 shadow-luxe">
           <div className="absolute -right-10 -top-10 opacity-20">
