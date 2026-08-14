@@ -36,7 +36,7 @@ export function PageShell({
         <div className="absolute inset-0 gradient-hero-overlay" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
         <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 pt-32">
-          <div className="glass inline-flex w-fit rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.3em] text-white animate-fade-up">
+          <div className="glass-dark inline-flex w-fit rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.3em] font-medium shadow-sm animate-fade-up">
             {eyebrow}
           </div>
           <h1 className="mt-5 max-w-3xl font-display text-5xl leading-[1.05] text-white md:text-7xl animate-fade-up" style={{ animationDelay: "120ms" }}>

@@ -22,7 +22,7 @@ function Landing() {
           className="absolute inset-0 h-full w-full object-cover scale-105 animate-fade-in-slow" />
         <div className="absolute inset-0 gradient-hero-overlay" />
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-start justify-center px-6 pt-32 pb-16">
-          <div className="glass rounded-full px-4 py-1.5 text-xs uppercase tracking-widest text-white animate-fade-up">
+          <div className="glass-dark rounded-full px-4 py-1.5 text-xs uppercase tracking-widest font-medium shadow-sm animate-fade-up">
             ආයුබෝවන් · Welcome to Sri Lanka
           </div>
           <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.05] text-white md:text-7xl animate-fade-up" style={{ animationDelay: "120ms" }}>
@@ -52,11 +52,11 @@ function Landing() {
               { name: "Ella", tag: "Tea Country" },
               { name: "Mirissa", tag: "Blue Whales" },
             ].map((d) => (
-              <div key={d.name} className="glass rounded-2xl px-4 py-3 text-white">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/70">
-                  <MapPin className="w-3 h-3" /> {d.tag}
+              <div key={d.name} className="glass-dark rounded-2xl px-4 py-3 shadow-md">
+                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/80 font-medium">
+                  <MapPin className="w-3 h-3 text-amber-400" /> {d.tag}
                 </div>
-                <div className="mt-1 font-display text-lg">{d.name}</div>
+                <div className="mt-1 font-display text-lg text-white">{d.name}</div>
               </div>
             ))}
           </div>
@@ -117,7 +117,7 @@ function PillarCard({ id, title, body, image, icon, tag }: { id: string; title: 
       <img src={image} alt={title} loading="lazy" className="h-80 w-full object-cover transition-transform duration-700 group-hover:scale-110" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-        <div className="glass inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs text-white">{icon}{tag}</div>
+        <div className="glass-dark inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium shadow-sm">{icon}{tag}</div>
         <h3 className="mt-3 font-display text-2xl">{title}</h3>
         <p className="mt-2 text-sm text-white/85">{body}</p>
       </div>

@@ -34,9 +34,9 @@ function DestinationsPage() {
           >
             <div className="relative aspect-[4/3] overflow-hidden">
               <img src={d.image} alt={d.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute top-3 left-3 glass rounded-full px-3 py-1 text-[11px] uppercase tracking-wider text-white">{d.tag}</div>
-              <div className="absolute bottom-3 right-3 glass rounded-full px-3 py-1 text-xs text-white inline-flex items-center gap-1">
-                <Star className="w-3 h-3 fill-primary text-primary" /> {d.rating}
+              <div className="absolute top-3 left-3 glass-dark rounded-full px-3 py-1 text-[11px] uppercase tracking-wider font-medium shadow-sm">{d.tag}</div>
+              <div className="absolute bottom-3 right-3 glass-dark rounded-full px-3 py-1 text-xs inline-flex items-center gap-1 font-medium shadow-sm">
+                <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {d.rating}
               </div>
             </div>
             <div className="p-6">

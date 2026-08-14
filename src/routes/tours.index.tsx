@@ -30,7 +30,7 @@ function ToursPage() {
           <article key={t.slug} className={`grid gap-6 md:grid-cols-2 items-stretch rounded-3xl overflow-hidden bg-card border border-border/40 hover-lift ${i % 2 ? "md:[&>div:first-child]:order-2" : ""}`}>
             <Link to="/tours/$slug" params={{ slug: t.slug }} className="relative aspect-[4/3] md:aspect-auto overflow-hidden block group">
               <img src={t.image} alt={t.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute top-4 left-4 glass rounded-full px-3 py-1 text-[11px] uppercase tracking-wider text-white">{t.tag}</div>
+              <div className="absolute top-4 left-4 glass-dark rounded-full px-3 py-1 text-[11px] uppercase tracking-wider font-medium shadow-sm">{t.tag}</div>
             </Link>
             <div className="p-8 flex flex-col">
               <h3 className="font-display text-3xl">

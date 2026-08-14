@@ -39,27 +39,27 @@
 
 :root {
   --radius: 0.9rem;
-  /* Light Luxe Tropical — Pearl Sand + Deep Charcoal + Gold */
+  /* Light Luxe Tropical — Pearl Sand + Deep Charcoal + Ceylon Gold */
   --background: oklch(0.985 0.008 100);
   --foreground: oklch(0.18 0.04 165);
   --card: oklch(0.995 0.003 100);
   --card-foreground: oklch(0.18 0.04 165);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.04 165);
-  --primary: oklch(0.68 0.16 75);            /* Gold */
+  --primary: oklch(0.52 0.17 65);            /* Rich Amber Gold - High contrast for light mode */
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.94 0.015 165);        /* Soft emerald mist */
   --secondary-foreground: oklch(0.18 0.04 165);
   --muted: oklch(0.94 0.015 165);
-  --muted-foreground: oklch(0.46 0.03 165);
+  --muted-foreground: oklch(0.40 0.04 165);
   --accent: oklch(0.62 0.20 35);             /* Sunset */
   --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0 0 0 / 12%);
   --input: oklch(0 0 0 / 14%);
-  --ring: oklch(0.68 0.16 75);
-  --gold: oklch(0.68 0.16 75);
+  --ring: oklch(0.52 0.17 65);
+  --gold: oklch(0.52 0.17 65);
   --jade: oklch(0.48 0.13 160);
   --sunset: oklch(0.62 0.20 35);
   --ocean: oklch(0.55 0.13 220);
@@ -67,7 +67,7 @@
   --gradient-hero: linear-gradient(135deg, oklch(0.12 0.04 165 / 0.88), oklch(0.22 0.08 30 / 0.55));
   --gradient-gold: linear-gradient(135deg, var(--gold), var(--sunset));
   --shadow-luxe: 0 10px 40px -15px oklch(0 0 0 / 0.12);
-  --glass-bg: color-mix(in oklab, white 85%, transparent);
+  --glass-bg: color-mix(in oklab, white 88%, transparent);
   --glass-border: color-mix(in oklab, black 12%, transparent);
 }
 
@@ -109,6 +109,14 @@
   backdrop-filter: blur(24px) saturate(160%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-luxe);
+}
+
+@utility glass-dark {
+  background: color-mix(in oklab, black 55%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in oklab, white 22%, transparent);
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
 
 @utility gradient-hero-overlay {

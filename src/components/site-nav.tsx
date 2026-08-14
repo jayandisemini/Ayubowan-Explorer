@@ -57,13 +57,13 @@ export function SiteNav() {
       </div>
 
       {/* Main nav */}
-      <div className={`transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-xl shadow-luxe border-b border-border/40" : "bg-background/40 backdrop-blur-sm"}`}>
+      <div className={`transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-xl shadow-luxe border-b border-border/40" : "bg-background/80 backdrop-blur-md border-b border-border/30 shadow-xs"}`}>
         <div className="mx-auto max-w-7xl px-6 flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="Ayubowan Travels" width={48} height={48} className="w-12 h-12 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" />
             <div className="leading-tight">
               <div className="font-display text-xl text-foreground tracking-wide">Ayubowan</div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-primary font-sans">Travels · Sri Lanka</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-primary font-sans font-semibold">Travels · Sri Lanka</div>
             </div>
           </Link>
 
@@ -72,14 +72,14 @@ export function SiteNav() {
               <Link
                 key={l.label}
                 to={l.to}
-                className="relative px-4 py-2 text-sm font-medium text-foreground/85 hover:text-primary transition-colors group"
+                className="relative px-4 py-2 text-sm font-medium text-foreground/90 hover:text-primary transition-colors group"
                 activeProps={{ className: "text-primary font-semibold" }}
               >
                 {l.label}
                 <span className="absolute left-4 right-4 -bottom-0.5 h-px bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
             ))}
-            <Link to="/dashboard" className="relative px-4 py-2 text-sm font-medium text-foreground/85 hover:text-primary transition-colors inline-flex items-center gap-1">
+            <Link to="/dashboard" className="relative px-4 py-2 text-sm font-medium text-foreground/90 hover:text-primary transition-colors inline-flex items-center gap-1">
               Dashboard <ChevronDown className="w-3 h-3" />
             </Link>
           </nav>
