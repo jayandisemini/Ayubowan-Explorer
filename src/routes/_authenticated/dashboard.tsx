@@ -67,15 +67,32 @@ function Dashboard() {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? "traveler@ayubowantravels.lk"));
-    supabase.from("destinations").select("*").then(({ data }) => {
-      if (data && data.length > 0) setDestinations((data as Destination[]) ?? []);
-      else setDestinations(defaultDestinations);
-    }).catch(() => setDestinations(defaultDestinations));
 
-    supabase.from("food_recommendations").select("*").then(({ data }) => {
-      if (data && data.length > 0) setFoods((data as FoodRec[]) ?? []);
-      else setFoods(defaultFoods);
-    }).catch(() => setFoods(defaultFoods));
+    async function loadDashboardData() {
+      try {
+        const { data: destData } = await supabase.from("destinations").select("*");
+        if (destData && destData.length > 0) {
+          setDestinations(destData as Destination[]);
+        } else {
+          setDestinations(defaultDestinations);
+        }
+      } catch {
+        setDestinations(defaultDestinations);
+      }
+
+      try {
+        const { data: foodData } = await supabase.from("food_recommendations").select("*");
+        if (foodData && foodData.length > 0) {
+          setFoods(foodData as FoodRec[]);
+        } else {
+          setFoods(defaultFoods);
+        }
+      } catch {
+        setFoods(defaultFoods);
+      }
+    }
+
+    loadDashboardData();
   }, []);
 
   const selected = destinations.find((d) => d.id === selectedId) ?? null;

@@ -17,6 +17,8 @@ export type Destination = {
   experiences: { title: string; description: string }[];
   gallery: string[];
   tips: string[];
+  latitude?: number;
+  longitude?: number;
 };
 
 export const destinations: Destination[] = [
